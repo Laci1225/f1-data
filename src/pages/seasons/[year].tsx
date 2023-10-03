@@ -7,21 +7,10 @@ import {seasonsColumns} from "@/utils/seasonsColumns";
 import {seasonColumns} from "@/utils/seasonColumns";
 
 export const getServerSideProps = (async (context) => {
-    {
-        console.log(context)
-    }
-    {
-        console.log(context.params)
-    }
-    {
-        console.log(context.params?.year)
-    }
     if (context.params?.year) {
-        console.log(context.params.year)
         //?page=4 query pareméter a szezonok 10 db / oldal
         try {
             const seasons = await getSeasonByYear(context.params.year);
-            console.log(seasons)
             return {
                 props: {
                     races: seasons.MRData.RaceTable.Races

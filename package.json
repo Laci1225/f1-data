@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-hover-card": "^1.0.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "lucide-react": "^0.284.0",
@@ -27,6 +28,7 @@
     "axios": "^1.5.1",
     "eslint": "latest",
     "eslint-config-next": "latest",
+    "http-proxy-middleware": "^2.0.6",
     "postcss": "latest",
     "tailwindcss": "latest",
     "typescript": "latest"

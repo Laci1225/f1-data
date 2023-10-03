@@ -1,5 +1,5 @@
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
-import httpRequest from "@/api/common";
+import {httpRequest} from "@/api/common";
 import {AllSeasonsResponse, Season, SeasonTable} from "@/models/all-seasons-respose";
 import {getAllSeasons} from "@/api/f1";
 import Link from "next/link";

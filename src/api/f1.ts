@@ -1,6 +1,6 @@
 //lekerdezesek implementacioja
 import {AllSeasonsResponse} from "@/models/all-seasons-respose";
-import httpRequest from "@/api/common";
+import {httpRequest} from "@/api/common";
 import {OneSeasonResponse} from "@/models/one-season-response";
 
 export const getAllSeasons = (): Promise<AllSeasonsResponse> => {
