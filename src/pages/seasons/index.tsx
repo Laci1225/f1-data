@@ -1,16 +1,14 @@
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
-import {httpRequest} from "@/api/common";
-import {AllSeasonsResponse, Season, SeasonTable} from "@/models/all-seasons-respose";
+import {Season} from "@/models/all-seasons-respose";
 import {getAllSeasons} from "@/api/f1";
-import Link from "next/link";
 import {DataTable} from "@/utils/data-table";
 import {seasonsColumns} from "@/utils/seasonsColumns";
 
 export const getServerSideProps = (async () => {
-    const seasons = await getAllSeasons();
+    const allSeasons = await getAllSeasons();
     return {
         props: {
-            seasons: seasons.MRData.SeasonTable.Seasons,
+            seasons: allSeasons.MRData.SeasonTable.Seasons,
         }
     };
 }) satisfies GetServerSideProps<{ seasons: Season[] }>;

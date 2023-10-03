@@ -1,9 +1,8 @@
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
 import {getSeasonByYear} from "@/api/f1";
-import {notFound, redirect} from "next/navigation";
+import {notFound} from "next/navigation";
 import {Race} from "@/models/one-season-response";
 import {DataTable} from "@/utils/data-table";
-import {seasonsColumns} from "@/utils/seasonsColumns";
 import {seasonColumns} from "@/utils/seasonColumns";
 
 export const getServerSideProps = (async (context) => {
