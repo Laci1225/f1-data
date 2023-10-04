@@ -1,5 +1,5 @@
 import {ColumnDef} from "@tanstack/react-table"
-import {Driver, FastestLap, Result} from "@/models/one-race-result";
+import {Constructor, Driver, FastestLap, Result, ResultTime} from "@/models/one-race-result";
 
 export const raceResultColumns: ColumnDef<Result>[] = [
     {
@@ -18,13 +18,22 @@ export const raceResultColumns: ColumnDef<Result>[] = [
         cell: ({row}) => {
             const driver: Driver = row.getValue("Driver")
             return (//<Link href={}>
-                <div className="text-center font-medium">{driver.familyName} {driver.givenName}</div>
+                <div className="text-center font-medium">{driver.givenName} {driver.familyName} </div>
+            )//</Link>
+        }
+    }, {
+        accessorKey: "Constructor",
+        header: () => <div className="text-center">Constructor</div>,
+        cell: ({row}) => {
+            const Constructor: Constructor = row.getValue("Constructor")
+            return (//<Link href={}>
+                <div className="text-center font-medium">{Constructor.name}</div>
             )//</Link>
         }
     },
     {
         accessorKey: "Driver",
-        header: () => <div className="text-center">Driver</div>,
+        header: () => <div className="text-center">Nationality</div>,
         cell: ({row}) => {
             const driver: Driver = row.getValue("Driver")
             return (//<Link href={}>
@@ -34,7 +43,7 @@ export const raceResultColumns: ColumnDef<Result>[] = [
     },
     {
         accessorKey: "Driver",
-        header: () => <div className="text-center">Driver</div>,
+        header: () => <div className="text-center">Birthday</div>,
         cell: ({row}) => {
             const driver: Driver = row.getValue("Driver")
             return (//<Link href={}>
@@ -46,10 +55,21 @@ export const raceResultColumns: ColumnDef<Result>[] = [
         accessorKey: "FastestLap",
         header: () => <div className="text-center">Fastest lap</div>,
         cell: ({row}) => {
-            const fastestLap: FastestLap | undefined = row.getValue("FastestLap")
+            const FastestLap: FastestLap | undefined = row.getValue("FastestLap")
             return (//<Link href={}>
-                <div className="text-center font-medium">{fastestLap?.Time.time}</div>
+                <div className="text-center font-medium">{FastestLap?.Time.time}</div>
             )//</Link>
         }
     },
+    {
+        accessorKey: "Time",
+        header: () => <div className="text-center">Result time</div>,
+        cell: ({row}) => {
+            const time: ResultTime | undefined = row.getValue("Time")
+            return (//<Link href={}>
+                <div className="text-center font-medium">{time?.time ? time.time : "DNF"}</div>
+            )//</Link>
+        }
+    },
+
 ]
