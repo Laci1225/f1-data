@@ -6,6 +6,12 @@ import {ReactNode, useState} from "react";
 import getSumOfText from "@/utils/getSumOfText";
 import Link from "next/link";
 import {useRouter} from "next/router";
+import {getServerSideProps} from "@/pages/seasons/[year]";
+import {InferGetServerSidePropsType} from "next";
+
+export function b({races}: InferGetServerSidePropsType<typeof getServerSideProps>):Race[] {
+    return races;
+}
 
 export const seasonColumns: ColumnDef<Race>[] = [
     {
@@ -16,7 +22,7 @@ export const seasonColumns: ColumnDef<Race>[] = [
             const router = useRouter();
             const year = router.asPath;
             const round: string = row.getValue("round")
-            return (<Link href={`${year}/results`}>
+            return (<Link href={`${year}/${round}/results`}>
                     <div className="text-center">{round}</div>
                 </Link>
             )
@@ -45,20 +51,29 @@ export const seasonColumns: ColumnDef<Race>[] = [
             // eslint-disable-next-line react-hooks/rules-of-hooks
             const [cont, setCont] = useState("")
             wikipediaRequest
-                .get("", {params: {titles: `${Circuit.circuitName.split(" ").join("_")}`}})
+                .get("", {
+                    params: {
+                        titles: `${
+                            Circuit.url.split('/')[Circuit.url.split('/').length - 1]}`
+                    }
+                })
                 .then((response) => {
                     const pageId = Object.keys(response.data.query.pages)[0];
                     setCont(response.data.query.pages[pageId].extract);
                 })
             return (//<Link href={url}>
                 < HoverCard>
-                    < HoverCardTrigger>
-                        <div className="text-center font-medium">{Circuit.circuitName}</div>
+                    < HoverCardTrigger href={Circuit.url}>
+                        <div className="text-center font-medium">
+                            {Circuit.circuitName}
+                        </div>
                     </HoverCardTrigger>
-                    <HoverCardContent className={"bg-black text-white text-justify"}>
-                        {
-                            getSumOfText(cont) ? getSumOfText(cont) : "No content"
-                        }
+                    <HoverCardContent className={"bg-black text-white w-96"}>
+                        <div className="font-mono">
+                            {
+                                getSumOfText(cont) ? getSumOfText(cont) : "No content"
+                            }
+                        </div>
                     </HoverCardContent>
                 </HoverCard>
                 //</Link>

@@ -1,13 +1,13 @@
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
-import {OneRaceResult, RaceTable} from "@/models/one-race-result"
+import {OneRaceResult} from "@/models/one-race-result"
 import {DataTable} from "@/utils/data-table";
 import {getRaceResult} from "@/api/f1";
 import {raceResultColumns} from "@/utils/raceResultColumns";
 import {notFound} from "next/navigation";
 
 export const getServerSideProps = (async (context) => {
-    if (context.params?.year) {
-        const raceResult = await getRaceResult(context.params.year);
+    if (context.params?.round && context.params.year) {
+        const raceResult = await getRaceResult(context.params.year, context.params.round);
         return {
             props: {
                 raceResult//.MRData.RaceTable//.Races[0].Results
@@ -15,7 +15,7 @@ export const getServerSideProps = (async (context) => {
         };
     }
     notFound();
-}) satisfies GetServerSideProps<{ raceResult: OneRaceResult }, { year: string }>;
+}) satisfies GetServerSideProps<{ raceResult: OneRaceResult }, { year: string, round: string }>;
 
 export default function Results({raceResult}: InferGetServerSidePropsType<typeof getServerSideProps>) {
     return (

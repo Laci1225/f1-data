@@ -12,7 +12,7 @@ export const getSeasonByYear = (year: string): Promise<OneSeasonResponse> => {
     return httpRequest.get<OneSeasonResponse>(`${year}.json`)
         .then(res => res.data)
 }
-export const getRaceResult = (race: string): Promise<OneRaceResult> => {
-    return httpRequest.get<OneRaceResult>(`${race}/results.json`)
+export const getRaceResult = (year: string,race: string): Promise<OneRaceResult> => {
+    return httpRequest.get<OneRaceResult>(`${year}/${race}/results.json`)
         .then(res => res.data)
 }
