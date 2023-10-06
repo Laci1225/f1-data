@@ -10,6 +10,12 @@ export default function Home() {
             <div>
                 <Link href={"/seasons"}>Seasons</Link>
             </div>
+            <div>
+                <Link href={"/teams"}>Teams</Link>
+            </div>
+            <div>
+                <Link href={"/drivers"}>Drivers</Link>
+            </div>
         </div>
     )
 }

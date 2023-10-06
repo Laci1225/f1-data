@@ -2,7 +2,7 @@ import {ColumnDef} from "@tanstack/react-table"
 import {Season} from "@/models/all-seasons-respose";
 import Link from "next/link";
 
-export const seasonsColumns: ColumnDef<Season>[] = [//todo cannot manipulate container
+export const seasonsColumns: ColumnDef<Season>[] = [//todo cannot manipulate container's width and etc
     {
         accessorKey: "season",
         header: () => <div className="text-center">Season</div>,
