@@ -9,15 +9,19 @@ export const getAllSeasons = (): Promise<AllSeasonsResponse> => {
     return httpRequest.get<AllSeasonsResponse>("seasons.json", {params: {limit: 100}})
         .then(res => res.data)
 }
+export const getPagedSeasons = (offset: number, limit: number): Promise<AllSeasonsResponse> => {
+    return httpRequest.get<AllSeasonsResponse>("seasons.json", {params: {offset: offset, limit: limit}})
+        .then(res => res.data)
+}
 export const getSeasonByYear = (year: string): Promise<OneSeasonResponse> => {
     return httpRequest.get<OneSeasonResponse>(`${year}.json`)
         .then(res => res.data)
 }
-export const getRaceResult = (year: string,race: string): Promise<OneRaceResult> => {
+export const getRaceResult = (year: string, race: string): Promise<OneRaceResult> => {
     return httpRequest.get<OneRaceResult>(`${year}/${race}/results.json`)
         .then(res => res.data)
 }
-export const getConstructorsByYear = (year: string):Promise<OneSeasonConstructors> => {
+export const getConstructorsByYear = (year: string): Promise<OneSeasonConstructors> => {
     return httpRequest.get<OneSeasonConstructors>(`${year}/constructors.json`)
         .then(res => res.data)
 }

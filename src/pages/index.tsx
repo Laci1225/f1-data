@@ -11,7 +11,7 @@ export default function Home() {
                 <Link href={"/seasons"}>Seasons</Link>
             </div>
             <div>
-                <Link href={"/teams"}>Teams</Link>
+                <Link href={{ pathname: '/teams', query: { page: 0 } }}>Teams</Link>
             </div>
             <div>
                 <Link href={"/drivers"}>Drivers</Link>

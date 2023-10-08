@@ -1,51 +1,51 @@
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
-import {Season} from "@/models/all-seasons-respose";
-import {getAllSeasons} from "@/api/f1";
-import {useEffect, useState} from "react";
+import {AllSeasonsResponse} from "@/models/all-seasons-respose";
+import {getPagedSeasons} from "@/api/f1";
 import Link from "next/link";
-import {useRouter} from "next/router";
+import {redirect} from "next/navigation";
+import { useRouter} from "next/router";
 
-export const getServerSideProps = (async () => {
-    const allSeasons = await getAllSeasons();
-    return {
-        props: {
-            seasons: allSeasons.MRData.SeasonTable.Seasons,
-        }
-    };
-}) satisfies GetServerSideProps<{ seasons: Season[] }>;
+export const getServerSideProps = (async (context) => {
+    if (context.query.page && context.query.page !== "-1" && context.query.page <= "8") {
+        const parsedSeasons = await getPagedSeasons(Number(context.query.page) * 10, 10);
+        return {
+            props: {
+                parsedSeasons
+            }
+        };
+    }
+    redirect("/teams");
+}) satisfies GetServerSideProps<{ parsedSeasons: AllSeasonsResponse }>;
 
-export default function Seasons({seasons}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-    const [dataTableData, setDataTableData] = useState<Season[]>()
-
-    const router = useRouter()
-    const {page} = router.query
-
-    useEffect(() => {
-        let actualTenSeason = seasons.slice(parseInt(page, 10) * 10, parseInt(page, 10) * 10 + 10)
-        setDataTableData(actualTenSeason)
-    }, [page, seasons]);
-
+export default function Seasons({parsedSeasons}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+    const router = useRouter();
     return (
         <div>
             <div>
                 <div className="container w-4/6 py-10">
-                    {dataTableData?.map(value => <div key={value.season}>
+                    {parsedSeasons.MRData.SeasonTable.Seasons?.map(value => <div key={value.season}>
                         <Link href={`teams/${value.season}`}> {value.season}</Link>
                     </div>)}
                     <div className={"flex justify-between"}>
                         <button onClick={() => {
-                            const pageProp = parseInt(page, 10) - 1;
-                            router.push(`/teams?page=${pageProp ? pageProp : 0}`).then()
+                            router.push({
+                                pathname: '/teams',
+                                query: {page: Number(router.query.page) - 1}
+
+                            })
                         }}
-                                disabled={parseInt(page, 10) === 0}
+                                disabled={Number(router.query.page) === 0}
                         >
                             Previous
                         </button>
                         <button onClick={() => {
-                            const pageProp = parseInt(page, 10) + 1;
-                            router.push(`/teams?page=${pageProp ? pageProp : 0}`).then()
+                            router.push({
+                                pathname: '/teams',
+                                query: {page: Number(router.query.page) + 1}
+                            })
                         }}
-                                disabled={parseInt(page, 10) === (seasons.length - seasons.length % 10) / 10}
+                                disabled={Number(router.query.page) === Math.floor(
+                                    Number(parsedSeasons.MRData.total)/10)}
                         >
                             Next
                         </button>
